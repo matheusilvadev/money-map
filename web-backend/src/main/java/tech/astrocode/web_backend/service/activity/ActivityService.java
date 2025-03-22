@@ -11,6 +11,6 @@ public interface ActivityService {
     public InsertActivityOutputDTO insertActivity(final InsertActivityInputDTO anInput);
     public void removeActivity(final String anId);
     public List<ListActivitiesOutputDTO> listActivities();
-    public void calculateBalance();
+    public float calculateBalance();
 
 }
