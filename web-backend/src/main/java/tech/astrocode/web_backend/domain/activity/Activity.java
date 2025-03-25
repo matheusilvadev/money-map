@@ -84,7 +84,7 @@ public class Activity {
     }
 
     public void validateType(){
-        if (this.type != ActivityType.EXPENSE && this.type != ActivityType.EXPENSE){
+        if (this.type != ActivityType.EXPENSE && this.type != ActivityType.REVENUE){
             throw new DomainException("Activity's TYPE should be either expense or revenue");
         }
     }
