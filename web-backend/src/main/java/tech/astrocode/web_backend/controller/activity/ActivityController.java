@@ -4,6 +4,7 @@ package tech.astrocode.web_backend.controller.activity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.astrocode.web_backend.controller.activity.dtos.CalculateBalanceResponseDTO;
 import tech.astrocode.web_backend.controller.activity.dtos.InsertActivityRequestDTO;
 import tech.astrocode.web_backend.controller.activity.dtos.InsertActivityResponseDTO;
 import tech.astrocode.web_backend.controller.activity.dtos.ListActivitiesResponseDTO;
@@ -60,6 +61,17 @@ public class ActivityController {
         aService.removeActivity(anId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/balance")
+    public ResponseEntity<CalculateBalanceResponseDTO> calculateBalance(){
+        final var aGateway = ActivityJpaGateway.build(repository);
+        final var aService = ActivityServiceIMP.build(aGateway);
+
+        final var aServiceResponse = aService.calculateBalance();
+        final var aResponse = new CalculateBalanceResponseDTO(aServiceResponse);
+
+        return ResponseEntity.ok().body(aResponse);
     }
 
 }
