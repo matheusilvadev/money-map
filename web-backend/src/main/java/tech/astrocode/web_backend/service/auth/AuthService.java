@@ -3,6 +3,9 @@ package tech.astrocode.web_backend.service.auth;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tech.astrocode.web_backend.domain.user.User;
 import tech.astrocode.web_backend.domain.utils.InstantUtils;
@@ -12,7 +15,7 @@ import tech.astrocode.web_backend.service.auth.exception.AuthException;
 import tech.astrocode.web_backend.service.auth.exception.LoginException;
 
 @Service
-public class AuthService {
+public class AuthService implements UserDetailsService {
     //Unique User
     final User uniqueUser = User.with("user@example.com", "12345");
 
@@ -70,5 +73,16 @@ public class AuthService {
 
     public boolean isTokenValid(final String token){
         return !validateToken(token).isEmpty();
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+
+        if(username.equals(this.uniqueUser.getUsername())){
+            return this.uniqueUser;
+        } else {
+            throw new UsernameNotFoundException("User nor found");
+        }
     }
 }
